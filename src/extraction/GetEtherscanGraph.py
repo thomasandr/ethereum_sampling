@@ -1,13 +1,12 @@
 import pandas as pd
 import requests
-import datetime
 from tqdm import tqdm
 
 API_KEY = 'ZW8EDBWKP1EI6DAW7TN567JY17K69DJYCR'
 INIT_ADDRESS = '0xff0bd4aa3496739d5667adc10e2b843dfab5712b'
 
 
-class GetEthereumGraph:
+class GetEtherscanGraph:
     """Creates a social network graph of ethereum token transfers"""
     def __init__(self, init_address, api_key=API_KEY):
         """
@@ -55,5 +54,7 @@ class GetEthereumGraph:
 
 
 if __name__ == "__main__":
-    ether_graph = GetEthereumGraph(INIT_ADDRESS)
+    # initialize graph
+    ether_graph = GetEtherscanGraph(INIT_ADDRESS)
+    # add step to graph
     ether_graph.add_step()
