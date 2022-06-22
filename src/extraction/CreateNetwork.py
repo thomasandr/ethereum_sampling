@@ -47,16 +47,14 @@ class CreateNetwork:
 
 
     def add_step(self, include_contracts=False, max_out_degrees=100):
-        counter = 1
-        new_transactions = list(set(self.graph.nodes).difference(self.contracts))
+        new_transactions = list(set(self.graph.nodes)\
+                                .difference(self.contracts)\
+                                .difference(self.processed_addresses))
         for i in tqdm(range(len(new_transactions))):
             address = new_transactions[i]
-            if address not in self.processed_addresses:
-                counter = counter + 1
-
-                _t = self._get_transactions(address)
-                self._append_graph(_t)
-                self.processed_addresses = self.processed_addresses + [address]
+            _t = self._get_transactions(address)
+            self._append_graph(_t)
+            self.processed_addresses = self.processed_addresses + [address]
 
     def add_additional_n_layers(self, layers, pruning_threshold):
         for i in range(layers+1):
