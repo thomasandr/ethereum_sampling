@@ -4,8 +4,6 @@ import networkx as nx
 from tqdm import tqdm
 
 API_KEY = 'ZW8EDBWKP1EI6DAW7TN567JY17K69DJYCR'
-LP = '0xff0bd4aa3496739d5667adc10e2b843dfab5712b'
-
 KNOWN_CONTRACTS = pd.read_csv('data/ethereum_contracts_20220622.csv')
 
 class CreateNetwork:
@@ -57,15 +55,43 @@ class CreateNetwork:
             self.processed_addresses = self.processed_addresses + [address]
 
     def add_additional_n_layers(self, layers, pruning_threshold):
-        for i in range(layers+1):
-            print(f"Adding Layer: {i}")
+        for i in range(layers):
+            print(f"Adding Layer: {i+1}")
             self.prune_network(pruning_threshold)
             self.add_step()
 
+    def save_graph(self, path):
+        nx.write_gml(self.graph, path)
+
 if __name__=="__main__":
     P = 100
-    network = CreateNetwork(LP, KNOWN_CONTRACTS["to_address"].to_list(), API_KEY)
-    network.add_additional_n_layers(layers=3, pruning_threshold=100)
+    ADDITIONAL_LAYERS = 3
+
+    # Logan Paul
+    network = CreateNetwork('0xff0bd4aa3496739d5667adc10e2b843dfab5712b',
+                            KNOWN_CONTRACTS["to_address"].to_list(),
+                            API_KEY)
+    network.add_additional_n_layers(layers=ADDITIONAL_LAYERS, pruning_threshold=100)
+    network.save_graph("data/lp.gml")
     # save network for analysis
 
-    # repeat 5 more times
+    # Logan Paul Alias
+    network = CreateNetwork('0xd3cf54f8876ff28d4312cadb408de7830fa60228',
+                            KNOWN_CONTRACTS["to_address"].to_list(),
+                            API_KEY)
+    network.add_additional_n_layers(layers=ADDITIONAL_LAYERS, pruning_threshold=100)
+    network.save_graph("data/lp_alt.gml")
+
+    # Lazurus Group
+    network = CreateNetwork('0x098B716B8Aaf21512996dC57EB0615e2383E2f96',
+                            KNOWN_CONTRACTS["to_address"].to_list(),
+                            API_KEY)
+    network.add_additional_n_layers(layers=ADDITIONAL_LAYERS, pruning_threshold=100)
+    network.save_graph("data/laz.gml")
+
+    # Laz Connected
+    network = CreateNetwork('0xFbF4CFe1669A402c63Ba0D0a2Ce936949868931A',
+                            KNOWN_CONTRACTS["to_address"].to_list(),
+                            API_KEY)
+    network.add_additional_n_layers(layers=ADDITIONAL_LAYERS, pruning_threshold=100)
+    network.save_graph("data/laz_alt.gml")
