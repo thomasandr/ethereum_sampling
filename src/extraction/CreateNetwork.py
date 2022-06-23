@@ -25,8 +25,7 @@ class CreateNetwork:
         }
         transactions = requests.get(url, params=params)
         transactions = pd.json_normalize(transactions.json(), record_path=["result"])
-        return nx.from_pandas_edgelist(transactions, source="to", target="from",
-                                       edge_attr=True, create_using=nx.DiGraph())
+        return nx.from_pandas_edgelist(transactions, source="to", target="from", create_using=nx.DiGraph())
 
     def _append_graph(self, new_graph):
         self.graph = nx.compose(self.graph, new_graph)
@@ -67,31 +66,80 @@ if __name__=="__main__":
     P = 100
     ADDITIONAL_LAYERS = 3
 
-    # Logan Paul
+    #### Logan Paul
+    # steps 0-1
     network = CreateNetwork('0xff0bd4aa3496739d5667adc10e2b843dfab5712b',
                             KNOWN_CONTRACTS["to_address"].to_list(),
                             API_KEY)
-    network.add_additional_n_layers(layers=ADDITIONAL_LAYERS, pruning_threshold=100)
+
+    # steps 1-2
+    network.prune_network(P)
+    network.add_step()
+
+    # steps 2-3
+    network.prune_network(P)
+    network.add_step()
+
+    # steps 3-4
+    network.prune_network(P)
+    network.add_step()
+
     network.save_graph("data/lp.gml")
     # save network for analysis
 
-    # Logan Paul Alias
+    #### Logan Paul Alias
     network = CreateNetwork('0xd3cf54f8876ff28d4312cadb408de7830fa60228',
                             KNOWN_CONTRACTS["to_address"].to_list(),
                             API_KEY)
-    network.add_additional_n_layers(layers=ADDITIONAL_LAYERS, pruning_threshold=100)
+
+    # steps 1-2
+    network.prune_network(P)
+    network.add_step()
+
+    # steps 2-3
+    network.prune_network(P)
+    network.add_step()
+
+    # steps 3-4
+    network.prune_network(P)
+    network.add_step()
+
     network.save_graph("data/lp_alt.gml")
 
-    # Lazurus Group
+    #### Lazurus Group
     network = CreateNetwork('0x098B716B8Aaf21512996dC57EB0615e2383E2f96',
                             KNOWN_CONTRACTS["to_address"].to_list(),
                             API_KEY)
-    network.add_additional_n_layers(layers=ADDITIONAL_LAYERS, pruning_threshold=100)
+
+    # steps 1-2
+    network.prune_network(P)
+    network.add_step()
+
+    # steps 2-3
+    network.prune_network(P)
+    network.add_step()
+
+    # steps 3-4
+    network.prune_network(P)
+    network.add_step()
+
     network.save_graph("data/laz.gml")
 
-    # Laz Connected
+    #### Laz Connected
     network = CreateNetwork('0xFbF4CFe1669A402c63Ba0D0a2Ce936949868931A',
                             KNOWN_CONTRACTS["to_address"].to_list(),
                             API_KEY)
-    network.add_additional_n_layers(layers=ADDITIONAL_LAYERS, pruning_threshold=100)
+
+    # steps 1-2
+    network.prune_network(P)
+    network.add_step()
+
+    # steps 2-3
+    network.prune_network(P)
+    network.add_step()
+
+    # steps 3-4
+    network.prune_network(P)
+    network.add_step()
+
     network.save_graph("data/laz_alt.gml")
