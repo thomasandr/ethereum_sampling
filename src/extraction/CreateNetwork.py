@@ -66,6 +66,27 @@ if __name__=="__main__":
     P = 100
     ADDITIONAL_LAYERS = 3
 
+    #### second eye 1
+    print("suex 1")
+    network = CreateNetwork('0x2f389ce8bd8ff92de3402ffce4691d17fc4f6535',
+                            KNOWN_CONTRACTS["to_address"].to_list(),
+                            API_KEY)
+
+    # using layering method
+    network.add_additional_n_layers(ADDITIONAL_LAYERS, P)
+    network.save_graph("data/graphs/suex_1.gml")
+
+    #### second eye 2
+    print("Second eye 2")
+    network = CreateNetwork('0x19Aa5Fe80D33a56D56c78e82eA5E50E5d80b4Dff',
+                            KNOWN_CONTRACTS["to_address"].to_list(),
+                            API_KEY)
+
+    # using layering method
+    network.add_additional_n_layers(ADDITIONAL_LAYERS, P)
+    network.save_graph("data/graphs/suex_2.gml")
+
+"""
     #### Logan Paul
     # steps 0-1
     network = CreateNetwork('0xff0bd4aa3496739d5667adc10e2b843dfab5712b',
@@ -126,20 +147,10 @@ if __name__=="__main__":
     network.save_graph("data/laz.gml")
 
     #### Laz Connected
-    network = CreateNetwork('0xFbF4CFe1669A402c63Ba0D0a2Ce936949868931A',
+    network = CreateNetwork('0x55999Fd3693E69f5384F32f70FE89C34b29C26a4',
                             KNOWN_CONTRACTS["to_address"].to_list(),
                             API_KEY)
 
-    # steps 1-2
-    network.prune_network(P)
-    network.add_step()
-
-    # steps 2-3
-    network.prune_network(P)
-    network.add_step()
-
-    # steps 3-4
-    network.prune_network(P)
-    network.add_step()
-
-    network.save_graph("data/laz_alt.gml")
+    # using layering method
+    network.add_additional_n_layers(ADDITIONAL_LAYERS, P)
+    network.save_graph("data/laz_alt2.gml")"""
